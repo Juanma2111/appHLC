@@ -1,0 +1,7 @@
+{
+  "name": "appHLC",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
