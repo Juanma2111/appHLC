@@ -9,13 +9,11 @@
 
 <ion-content>
   <ion-item>
-    <ion-label position="stacked">Título</ion-label>
-    <ion-input label="titulo" [(ngModel)]="nota.titulo"></ion-input>
+    <ion-input aria-label="Título" [(ngModel)]="nota.titulo"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label position="stacked">Contenido</ion-label>
-    <ion-textarea label="contenido" [(ngModel)]="nota.contenido"></ion-textarea>
+    <ion-textarea placeholder="Contenido" [(ngModel)]="nota.contenido"></ion-textarea>
   </ion-item>
 
   <ion-button expand="full" (click)="guardarNota()">Guardar Cambios</ion-button>
