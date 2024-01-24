@@ -3,17 +3,29 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ nota.titulo }}</ion-title>
+    <ion-title>{{ nota.titulo || 'Nueva Nota'}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button id="grupoButton" (click)="seleccionarGrupo()" [style.background]="getGrupoColor()"></ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-item>
-    <ion-input aria-label="Título" [(ngModel)]="nota.titulo"></ion-input>
+    <ion-input placeholder="Titulo" [(ngModel)]="nota.titulo"></ion-input>
   </ion-item>
 
   <ion-item>
     <ion-textarea placeholder="Contenido" [(ngModel)]="nota.contenido"></ion-textarea>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Grupo</ion-label>
+    <ion-select [(ngModel)]="nota.grupoId">
+      <ion-select-option *ngFor="let grupo of grupos" [value]="grupo.id">
+        {{ grupo.nombre }}
+      </ion-select-option>
+    </ion-select>
   </ion-item>
 
   <ion-button expand="full" (click)="guardarNota()">Guardar Cambios</ion-button>

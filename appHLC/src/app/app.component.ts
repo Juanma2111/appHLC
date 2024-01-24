@@ -8,7 +8,7 @@ import { Nota } from 'src/app/models/nota.model';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  nuevaNota: Nota = { id: '', titulo: '', contenido: ''};
+  nuevaNota: Nota = { id: '', titulo: '', contenido: '', grupoId: ''};
 
   public appPages = [
     { title: 'Inbox', url: '/folder/inbox', icon: 'mail' },

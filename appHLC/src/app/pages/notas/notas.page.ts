@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NotasService } from 'src/app/services/notas.service';
 import { Nota } from 'src/app/models/nota.model';
+import { Grupo } from 'src/app/models/grupo.model';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -9,8 +10,9 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./notas.page.scss'],
 })
 export class NotasPage implements OnInit{
-  nuevaNota: Nota = { id: '', titulo: '', contenido: '' };
-  nota: Nota = { id: '', titulo: '', contenido: '' };
+  nuevaNota: Nota = { id: '', titulo: '', contenido: '', grupoId: '' };
+  nota: Nota = { id: '', titulo: '', contenido: '', grupoId: '' };
+  grupos: Grupo[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -19,6 +21,8 @@ export class NotasPage implements OnInit{
   ) {}
 
   ngOnInit() {
+    this.grupos = this.notasService.getGrupos();
+
     this.route.paramMap.subscribe(params => {
       const notaId = params.get('id');
       
@@ -35,12 +39,13 @@ export class NotasPage implements OnInit{
         
         // ID NOTA NULL
       } else {
-        this.nota = { id: '', titulo: '', contenido: '' };
+        this.nota = { id: '', titulo: '', contenido: '', grupoId: '' };
       }
     });
     
   }
 
+  //METODOS NOTAS
   guardarNota() {
     if (this.nota.id) {
       this.editarNota();
@@ -59,6 +64,17 @@ export class NotasPage implements OnInit{
     this.notasService.actualizarNota(this.nota);
     this.router.navigate(['/home']);
   }
+
+  //METODOS GRUPOS
+  seleccionarGrupo() {      // -------------------------------------------------------------------------------------
+
+  }
+
+  getGrupoColor(): string {
+    const grupoActual = this.grupos.find(grupo => grupo.id === this.nota?.grupoId);
+    return grupoActual ? grupoActual.color : 'gray'; // Puedes cambiar 'gray' por el color por defecto que desees -------------------
+  }
+
 
   volverAlInicio() {
     this.router.navigate(['/home']);

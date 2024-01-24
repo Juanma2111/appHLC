@@ -26,6 +26,11 @@ export class HomePage implements OnInit {
     this.router.navigate(['/notas', notaId]);
   }
 
+  getGrupoNombre(grupoId: string){
+    const grupo = this.notasService.getGrupos().find(g => g.id === grupoId)
+    return grupo?.nombre;
+  }
+
   ionViewWillEnter() {
     this.notas = this.notasService.getNotas();
   }

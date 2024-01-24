@@ -10,6 +10,7 @@
   <ion-list>
     <ion-item *ngFor="let nota of notas" (click)="verNota(nota)">
       <ion-label>{{ nota.titulo }}</ion-label>
+      <ion-label color="medium">{{ getGrupoNombre(nota.grupoId) }}</ion-label>
     </ion-item>
   </ion-list>
 
