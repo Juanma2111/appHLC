@@ -66,13 +66,13 @@ export class NotasPage implements OnInit{
   }
 
   //METODOS GRUPOS
-  seleccionarGrupo() {      // -------------------------------------------------------------------------------------
-
+  actualizarGrupo() {      // -------------------------------------------------------------------------------------
+    this.nota.grupoId = 
   }
 
   getGrupoColor(): string {
     const grupoActual = this.grupos.find(grupo => grupo.id === this.nota?.grupoId);
-    return grupoActual ? grupoActual.color : 'gray'; // Puedes cambiar 'gray' por el color por defecto que desees -------------------
+    return grupoActual?.color || "#B8B8B8";    
   }
 
 

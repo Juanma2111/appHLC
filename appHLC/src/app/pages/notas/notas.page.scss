@@ -1,5 +1,6 @@
 #grupoButton {
-    border-radius: 15px; /* Ajusta el radio según tu preferencia */
-    width: 30px; /* Ajusta el tamaño según tu preferencia */
-    height: 30px; /* Ajusta el tamaño según tu preferencia */
+    border-radius: 15px;
+    &[ngFor] {
+      background-color: var(--mi-color-1); 
+    } 
   }
