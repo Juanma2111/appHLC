@@ -11,9 +11,9 @@ export class NotasService {
 
   private notas: Nota[] = [];
   private grupos: Grupo[] = [
-    {id: '1', nombre: 'Notas', color: '--mi-color-1'},
-    {id: '2', nombre: 'Trabajo', color: '--mi-color-2'},
-    {id: '3', nombre: 'Compra', color: '--mi-color-3'}
+    {id: '1', nombre: 'Notas', color: '#70FFFE'},
+    {id: '2', nombre: 'Trabajo', color: '#70FF79'},
+    {id: '3', nombre: 'Compra', color: '#C970FF'}
   ]
 
   //NOTAS

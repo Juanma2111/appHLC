@@ -66,13 +66,13 @@ export class NotasPage implements OnInit{
   }
 
   //METODOS GRUPOS
-  actualizarGrupo() {      // -------------------------------------------------------------------------------------
-    this.nota.grupoId = 
+  actualizarGrupo(event: any) {      // -------------------------------------------------------------------------------------
+    this.nota.grupoId = event.detail.value;
   }
 
   getGrupoColor(): string {
     const grupoActual = this.grupos.find(grupo => grupo.id === this.nota?.grupoId);
-    return grupoActual?.color || "#B8B8B8";    
+    return grupoActual?.color || "#B8B8B8";
   }
 
 

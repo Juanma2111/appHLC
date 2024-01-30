@@ -4,8 +4,8 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>{{ nota.titulo || 'Nueva Nota'}}</ion-title>
-  <ion-item slot="end" id="grupoButton">
-    <ion-select [(ngModel)]="nota.grupoId" placeholder="grupo">
+  <ion-item slot="end" id="itemGrupo">
+    <ion-select [(ngModel)]="nota.grupoId" placeholder="grupo" [style.background-color]="getGrupoColor()" (ionChange)="actualizarGrupo($event)" id="grupoButton">
       <ion-select-option *ngFor="let grupo of grupos" [value]="grupo.id">
         {{ grupo.nombre }}
       </ion-select-option>

@@ -1,6 +1,7 @@
 #grupoButton {
     border-radius: 15px;
-    &[ngFor] {
-      background-color: var(--mi-color-1); 
-    } 
-  }
+}
+
+#itemGrupo {
+  width: 40%;
+}
