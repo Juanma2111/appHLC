@@ -31,6 +31,11 @@ export class HomePage implements OnInit {
     return grupo?.nombre;
   }
 
+  getGrupoColor(grupoId: string): string {
+    const grupo = this.notasService.getGrupos().find(g => g.id === grupoId)
+    return grupo?.color || "#B8B8B8";
+  }
+
   ionViewWillEnter() {
     this.notas = this.notasService.getNotas();
   }

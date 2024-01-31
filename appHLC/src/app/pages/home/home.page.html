@@ -7,10 +7,11 @@
 </ion-header>
 
 <ion-content>
+  <!-- LISTA DE NOTAS -->
   <ion-list>
-    <ion-item *ngFor="let nota of notas" (click)="verNota(nota)">
+    <ion-item *ngFor="let nota of notas" (click)="verNota(nota)" 
+    [style.border-right]="'8px solid ' + getGrupoColor(nota.grupoId)">
       <ion-label>{{ nota.titulo }}</ion-label>
-      <ion-label color="medium">{{ getGrupoNombre(nota.grupoId) }}</ion-label>
     </ion-item>
   </ion-list>
 
