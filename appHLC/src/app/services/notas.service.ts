@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { AngularFire}
 import { Nota } from '../models/nota.model';
 import { Grupo } from '../models/grupo.model';
+import { Firestore, addDoc, collection, collectionData, doc, deleteDoc, getDoc } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotasService {
 
-  constructor() { }
+  constructor(private firestore: Firestore) { }
 
   private notas: Nota[] = [];
   private grupos: Grupo[] = [
@@ -18,16 +19,21 @@ export class NotasService {
   ]
 
   //NOTAS
-  getNotas() {
-    return this.notas.slice();
+  getNotas(): Observable<Nota[]> {
+    const notasRef = collection(this.firestore, "notas");
+    return collectionData(notasRef, { idField: 'id'}) as Observable<Nota[]>
   }
   
   agregarNota(nota: Nota) {
-    this.notas.push(nota);
+    const notasRef = collection(this.firestore, "notas");
+    return addDoc(notasRef, nota);
   }
 
-  getNotaPorId(id: string) {
-    return this.notas.find(nota => nota.id === id);
+  async getNotaPorId(id: string) {
+    const notaDocRef = doc(this.firestore, ('notas/' + id));
+
+    const notaSnap = await getDoc(notaDocRef)
+    return (notaSnap.data() as Nota);
   }
 
   actualizarNota(nuevaNota: Nota) {
@@ -39,6 +45,11 @@ export class NotasService {
       // Manejar el caso en que la nota no se encontró
       console.error(`No se encontró ninguna nota con el ID: ${nuevaNota.id}`);
     }
+  }
+
+  async borrarNota(nota: Nota){
+    const notaDocRef = doc(this.firestore, ('notas/' + nota.id));
+    return await deleteDoc(notaDocRef)
   }
 
   //GRUPOS

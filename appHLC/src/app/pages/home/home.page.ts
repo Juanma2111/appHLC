@@ -14,7 +14,9 @@ export class HomePage implements OnInit {
   constructor(private notasService: NotasService, private router: Router) {}
 
   ngOnInit() {
-    this.notas = this.notasService.getNotas();
+    this.notasService.getNotas().subscribe(notas => {
+      this.notas = notas;
+    });
   }
 
   agregarNota() {
@@ -36,7 +38,9 @@ export class HomePage implements OnInit {
     return grupo?.color || "#B8B8B8";
   }
 
-  ionViewWillEnter() {
-    this.notas = this.notasService.getNotas();
-  }
+  // ionViewWillEnter() {
+  //   this.notasService.getNotas().subscribe(notas => {
+  //     console.log(notas)
+  //   });
+  // }
 }

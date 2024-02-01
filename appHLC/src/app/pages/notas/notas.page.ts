@@ -20,14 +20,14 @@ export class NotasPage implements OnInit{
     private notasService: NotasService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.grupos = this.notasService.getGrupos();
 
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe(async params => {
       const notaId = params.get('id');
       
       if (notaId !== null) {
-        const notaEncontrada = this.notasService.getNotaPorId(notaId);
+        const notaEncontrada = await this.notasService.getNotaPorId(notaId);
         
         if (notaEncontrada) {
           this.nota = { ...notaEncontrada };
@@ -56,12 +56,19 @@ export class NotasPage implements OnInit{
     this.volverAlInicio();
   }
   
-  agregarNota() {
-    this.notasService.agregarNota({ ...this.nota, id: Date.now().toString() });
+  async agregarNota() {
+    const response = await this.notasService.agregarNota({ ...this.nota, id: Date.now().toString() });
+    console.log(response)
   }
 
-  editarNota() {
+  editarNota() { 
     this.notasService.actualizarNota(this.nota);
+    this.router.navigate(['/home']);
+  }
+
+  async borrarNota() { //----------------------------NO BORRA
+    const response = await this.notasService.borrarNota({ ...this.nota});
+    console.log(response)
     this.router.navigate(['/home']);
   }
 
