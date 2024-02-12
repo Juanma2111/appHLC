@@ -13,6 +13,8 @@ export class NotasPage implements OnInit{
   nuevaNota: Nota = { id: '', titulo: '', contenido: '', grupoId: '' };
   nota: Nota = { id: '', titulo: '', contenido: '', grupoId: '' };
   grupos: Grupo[] = [];
+  notaId: string | null = '';
+  
 
   constructor(
     private route: ActivatedRoute,
@@ -24,10 +26,10 @@ export class NotasPage implements OnInit{
     this.grupos = this.notasService.getGrupos();
 
     this.route.paramMap.subscribe(async params => {
-      const notaId = params.get('id');
+      this.notaId = params.get('id');
       
-      if (notaId !== null) {
-        const notaEncontrada = await this.notasService.getNotaPorId(notaId);
+      if (this.notaId !== null) {
+        const notaEncontrada = await this.notasService.getNotaPorId(this.notaId);
         
         if (notaEncontrada) {
           this.nota = { ...notaEncontrada };
@@ -48,6 +50,9 @@ export class NotasPage implements OnInit{
   //METODOS NOTAS
   guardarNota() {
     if (this.nota.id) {
+      if (this.nota.id && this.notaId) {
+        this.nota.id = this.notaId;
+      }
       this.editarNota();
     } else {
       this.agregarNota();
@@ -57,19 +62,22 @@ export class NotasPage implements OnInit{
   }
   
   async agregarNota() {
-    const response = await this.notasService.agregarNota({ ...this.nota, id: Date.now().toString() });
-    console.log(response)
+      const response = await this.notasService.agregarNota({ ...this.nota, id: Date.now().toString() });
+      console.log(response)
   }
 
   editarNota() { 
     this.notasService.actualizarNota(this.nota);
-    this.router.navigate(['/home']);
   }
 
-  async borrarNota() { //----------------------------NO BORRA
-    const response = await this.notasService.borrarNota({ ...this.nota});
-    console.log(response)
-    this.router.navigate(['/home']);
+  async borrarNota() { 
+    if (this.notaId == null || this.notaId == '') {
+      console.log('NOTA NO ENCONTRADA')
+    } else {
+      const response = await this.notasService.borrarNota( this.notaId );
+      console.log(response)
+      this.router.navigate(['/home']);
+    }
   }
 
   //METODOS GRUPOS

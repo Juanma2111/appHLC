@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Nota } from '../models/nota.model';
 import { Grupo } from '../models/grupo.model';
-import { Firestore, addDoc, collection, collectionData, doc, deleteDoc, getDoc } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, doc, deleteDoc, getDoc, updateDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -36,19 +36,20 @@ export class NotasService {
     return (notaSnap.data() as Nota);
   }
 
-  actualizarNota(nuevaNota: Nota) {
-    const indice = this.notas.findIndex(nota => nota.id === nuevaNota.id);
-
-    if (indice !== -1) {
-      this.notas[indice] = nuevaNota;
-    } else {
-      // Manejar el caso en que la nota no se encontró
-      console.error(`No se encontró ninguna nota con el ID: ${nuevaNota.id}`);
+  actualizarNota(nuevaNota: Nota) { //---------------------------------------------------------------------
+    const notaDocRef = doc(this.firestore, ('notas/' + nuevaNota.id));
+    const cambios = {
+      id: nuevaNota.id,
+      titulo: nuevaNota.titulo,
+      contenido: nuevaNota.contenido,
+      grupoId: nuevaNota.grupoId
     }
+
+    updateDoc(notaDocRef, cambios)
   }
 
-  async borrarNota(nota: Nota){
-    const notaDocRef = doc(this.firestore, ('notas/' + nota.id));
+  async borrarNota(id: string){
+    const notaDocRef = doc(this.firestore, 'notas', id);
     return await deleteDoc(notaDocRef)
   }
 
