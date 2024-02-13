@@ -1,3 +1,6 @@
-<p>
-  list works!
-</p>
+<ion-list>
+  <ion-item *ngFor="let nota of notas | filtroNotas: grupoSeleccionado" (click)="verNota(nota)" 
+  [style.border-right]="'8px solid ' + getGrupoColor(nota.grupoId)">
+    <ion-label>{{ nota.titulo }}</ion-label>
+  </ion-item>
+</ion-list>

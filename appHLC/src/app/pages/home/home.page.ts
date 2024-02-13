@@ -38,9 +38,4 @@ export class HomePage implements OnInit {
     return grupo?.color || "#B8B8B8";
   }
 
-  // ionViewWillEnter() {
-  //   this.notasService.getNotas().subscribe(notas => {
-  //     console.log(notas)
-  //   });
-  // }
 }

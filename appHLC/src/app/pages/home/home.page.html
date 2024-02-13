@@ -6,17 +6,13 @@
   </ion-toolbar>
 </ion-header>
 
+<app-menu></app-menu>
+
+
+
 <ion-content>
   <!-- LISTA DE NOTAS -->
-  <ion-list>
-    <ion-item *ngFor="let nota of notas" (click)="verNota(nota)" 
-    [style.border-right]="'8px solid ' + getGrupoColor(nota.grupoId)">
-      <ion-label>{{ nota.titulo }}</ion-label>
-    </ion-item>
-  </ion-list>
-
-
-
+  <app-list></app-list>
 
 
   <!-- BOTON AÑADIR NOTA -->
