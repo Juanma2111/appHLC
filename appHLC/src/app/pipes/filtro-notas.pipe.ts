@@ -6,8 +6,8 @@ import { Nota } from '../models/nota.model';
 })
 export class FiltroNotasPipe implements PipeTransform {
 
-  transform(notas: Nota[], grupoSeleccionado: string | null): Nota[] {
-    if (!grupoSeleccionado) {
+  transform(notas: Nota[], grupoSeleccionado: string): Nota[] {
+    if (grupoSeleccionado == '') {
       return notas;
     } else {
       return notas.filter(nota => nota.grupoId === grupoSeleccionado)

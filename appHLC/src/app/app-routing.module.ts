@@ -21,6 +21,10 @@ const routes: Routes = [
   {
     path: 'notas/:id',
     loadChildren: () => import('./pages/notas/notas.module').then( m => m.NotasPageModule)
+  },
+  {
+    path: 'home/:grupoSeleccionado',
+    component: HomePage
   }
 ];
 

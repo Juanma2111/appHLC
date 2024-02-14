@@ -1,13 +1,13 @@
-<ion-menu side="start" contentId="main-content">
+<ion-menu side="start" contentId="main-content" type="overlay">
   <!-- Contenido del menú -->
   <ion-content>
     <h4>Grupos</h4>
     <ion-list mode="ios" lines="inset">
-      <ion-item>
+      <ion-item (click)="seleccionarGrupo('')">
         Todo
       </ion-item>
       <ion-item *ngFor="let grupo of grupos"
-      [style.border-left]="'5px solid ' + grupo.color" [style.border-bottom]="'3px solid ' + grupo.color" [style.color]="grupo.color">
+      [style.border-left]="'5px solid ' + grupo.color" [style.border-bottom]="'3px solid ' + grupo.color" [style.color]="grupo.color" (click)="seleccionarGrupo(grupo.id)">
         {{ grupo.nombre }}
       </ion-item>
       <ion-item>

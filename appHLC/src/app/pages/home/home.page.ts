@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NotasService } from 'src/app/services/notas.service';
 import { Nota } from 'src/app/models/nota.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -10,13 +10,21 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnInit {
   notas: Nota[] = [];
+  grupoSeleccionado: string  = ''
 
-  constructor(private notasService: NotasService, private router: Router) {}
+  constructor(private notasService: NotasService, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.notasService.getNotas().subscribe(notas => {
       this.notas = notas;
     });
+
+    this.route.params.subscribe(params => {
+      this.grupoSeleccionado = params['grupoSeleccionado']
+    })
+    if (this.grupoSeleccionado == undefined) {
+      this.grupoSeleccionado = ''
+    }
   }
 
   agregarNota() {

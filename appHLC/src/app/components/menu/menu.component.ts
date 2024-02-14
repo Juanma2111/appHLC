@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Grupo } from 'src/app/models/grupo.model';
 import { NotasService } from 'src/app/services/notas.service';
 
@@ -12,6 +12,8 @@ export class MenuComponent  implements OnInit {
 
   constructor(private notasService: NotasService) { }
 
+  @Output() grupoSeleccionado = new EventEmitter<string>();
+
   grupos: Grupo[] = [];
   ngOnInit() {
     this.grupos = this.notasService.getGrupos()
@@ -24,5 +26,9 @@ export class MenuComponent  implements OnInit {
   getGrupoColor(grupoId: string): string {
     const grupo = this.notasService.getGrupos().find(g => g.id === grupoId)
     return grupo?.color || "#B8B8B8";
+  }
+
+  seleccionarGrupo(grupoId: string): void {
+    this.grupoSeleccionado.emit(grupoId)
   }
 }

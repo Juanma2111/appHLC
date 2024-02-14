@@ -15,7 +15,7 @@ export class ListComponent  implements OnInit {
   constructor(private notasService: NotasService, private router: Router) { }
 
   notas: Nota[] = []
-  @Input() grupoSeleccionado: string | null = null;
+  @Input() grupoSeleccionado: string  = '';
 
   ngOnInit() {
     this.notasService.getNotas().subscribe(notas => {

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NotasService } from 'src/app/services/notas.service';
 import { Nota } from 'src/app/models/nota.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,16 +10,15 @@ import { Nota } from 'src/app/models/nota.model';
 })
 export class AppComponent {
   nuevaNota: Nota = { id: '', titulo: '', contenido: '', grupoId: ''};
+  grupoSeleccionado: string  = ''
+  
+  
+  constructor (private router: Router) {}
 
-  public appPages = [
-    { title: 'Inbox', url: '/folder/inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/spam', icon: 'warning' },
-  ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  actualizarGrupoSeleccionado(grupoId: string): void {
+    this.grupoSeleccionado = grupoId
+    this.router.navigate(['/home', { grupoSeleccionado: this.grupoSeleccionado }]);
+  }
 
   
 }
