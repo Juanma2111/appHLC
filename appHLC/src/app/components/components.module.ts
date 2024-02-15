@@ -4,6 +4,7 @@ import { MenuComponent } from './menu/menu.component';
 import { IonicModule } from '@ionic/angular';
 import { ListComponent } from './list/list.component';
 import { FiltroNotasPipe } from '../pipes/filtro-notas.pipe';
+import { SelectorColorComponent } from './selector-color/selector-color.component';
 
 
 
@@ -11,7 +12,8 @@ import { FiltroNotasPipe } from '../pipes/filtro-notas.pipe';
   declarations: [
     MenuComponent,
     ListComponent,
-    FiltroNotasPipe
+    FiltroNotasPipe,
+    SelectorColorComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +21,8 @@ import { FiltroNotasPipe } from '../pipes/filtro-notas.pipe';
   ],
   exports: [
     MenuComponent,
-    ListComponent
+    ListComponent,
+    SelectorColorComponent
   ]
 })
 export class ComponentsModule { }

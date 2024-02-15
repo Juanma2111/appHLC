@@ -1,0 +1,8 @@
+<!-- color-selector.component.html -->
+<ion-content>
+  <ion-list lines="none" class="color-list">
+    <ion-item *ngFor="let color of colores" (click)="seleccionarColor(color)">
+        <ion-icon name="ellipse" [style.color]="color"></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>

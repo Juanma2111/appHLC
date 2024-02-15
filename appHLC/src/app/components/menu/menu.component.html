@@ -10,7 +10,7 @@
       [style.border-left]="'5px solid ' + grupo.color" [style.border-bottom]="'3px solid ' + grupo.color" [style.color]="grupo.color" (click)="seleccionarGrupo(grupo.id)">
         {{ grupo.nombre }}
       </ion-item>
-      <ion-item>
+      <ion-item (click)="crearGrupo()">
         <ion-icon name="add" color="white"></ion-icon>
       </ion-item>
     </ion-list>

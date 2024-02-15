@@ -1,0 +1,17 @@
+/* color-selector.component.scss */
+.color-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  ion-item {
+    flex-basis: calc(33.33% - 10px); /* Puedes ajustar este valor según tus necesidades */
+    margin: 5px;
+    justify-content: center;
+  }
+  
+  ion-icon {
+    width: 60px;
+    height: 60px;
+  }
