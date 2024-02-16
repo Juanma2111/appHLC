@@ -17,6 +17,9 @@ export class MenuComponent  implements OnInit {
   @Output() grupoSeleccionado = new EventEmitter<string>();
 
   grupos: Grupo[] = [];
+  colorSeleccionado: string = '#B8B8B8'
+  nombreSeleccionado: string = ''
+
   ngOnInit() {
     this.grupos = this.notasService.getGrupos()
   }
@@ -34,21 +37,19 @@ export class MenuComponent  implements OnInit {
       ],
       buttons: [
         {
-          text: 'Seleccionar Color',
-          handler: () => {
-            this.mostrarSelectorColor();
+          text: 'Siguiente',
+          handler: data => {
+            if (data.nombre.trim() != '') {
+              this.nombreSeleccionado = data.nombre
+              this.mostrarSelectorColor();
+            } else console.log('NOMBRE EN BLANCO-------------------')
+
+            return true
           }
         },
         {
           text: 'Cancelar',
           role: 'cancel',
-        },
-        {
-          text: 'Guardar',
-          handler: (data) => {
-            // Aquí puedes manejar los datos ingresados por el usuario (data)
-            console.log('Nuevo Grupo:', data);
-          },
         },
       ],
     });
@@ -75,11 +76,19 @@ export class MenuComponent  implements OnInit {
   
     await popover.present();
   
-    const { data } = await popover.onWillDismiss();
+    const { data } = await popover.onDidDismiss();
   
     if (data && data.color) {
-      // Aquí puedes manejar el color seleccionado desde el selector de color
-      console.log('Color seleccionado:', data.color);
+      // Crear grupo
+      this.colorSeleccionado = data.color
+
+      const nuevoGrupo: Grupo = { 
+        id: this.notasService.getGrupos.length.toString(),
+        nombre: this.nombreSeleccionado,
+        color: this.colorSeleccionado
+      }
+      this.notasService.agregarGrupo(nuevoGrupo)
     }
+
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 
 
@@ -9,12 +9,15 @@ import { PopoverController } from '@ionic/angular';
 })
 export class SelectorColorComponent  implements OnInit {
 
-  colores: string[] = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+  colores: string[] = ['#009f4d', '#84bd00', '#efdf00', '#fe5000', '#e4002b', '#da1884', '#962EC6', '#0077c8', '#0BCAD3'];
+
+  @Output() colorSeleccionado = new EventEmitter<string>();
 
   constructor(private popoverController: PopoverController) {}
 
   seleccionarColor(color: string) {
-    this.popoverController.dismiss({ color });
+    this.colorSeleccionado.emit(color);
+    this.popoverController.dismiss({ color })
   }
 
   ngOnInit() {}
