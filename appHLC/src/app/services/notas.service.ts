@@ -11,8 +11,8 @@ export class NotasService {
 
   constructor(private firestore: Firestore) { }
 
-  private gruposSubject = new BehaviorSubject<Grupo[]>([]);
-  grupos$ = this.gruposSubject.asObservable();
+  // private gruposSubject = new BehaviorSubject<Grupo[]>([]);
+  // grupos$ = this.gruposSubject.asObservable();
 
   private notas: Nota[] = [];
   private grupos: Grupo[] = [
@@ -57,20 +57,20 @@ export class NotasService {
   //GRUPOS
   getGrupos(): Observable<Grupo[]> {
     const gruposRef = collection(this.firestore, 'grupos');
-    const grupos$ = collectionData(gruposRef, { idField: 'id' }) as Observable<Grupo[]>;
-    grupos$.subscribe(grupos => {
-      this.gruposSubject.next(grupos);
-    });
+    return collectionData(gruposRef, { idField: 'id' }) as Observable<Grupo[]>;
+    // grupos$.subscribe(grupos => {
+    //   this.gruposSubject.next(grupos);
+    // });
 
-    return grupos$;
+    // return grupos$;
   }
 
   async agregarGrupo(grupo: Grupo): Promise<void> {
     const gruposRef = collection(this.firestore, 'grupos');
     await addDoc(gruposRef, grupo);
 
-    const nuevaLista = this.gruposSubject.value.concat(grupo);
-    this.gruposSubject.next(nuevaLista);
+    // const nuevaLista = this.gruposSubject.value.concat(grupo);
+    // this.gruposSubject.next(nuevaLista);
   }
 
   async actualizarGrupo(grupo: Grupo): Promise<void> {

@@ -21,7 +21,7 @@ export class MenuComponent  implements OnInit {
   nombreSeleccionado: string = ''
 
   ngOnInit() {
-    this.notasService.grupos$.subscribe(grupos => {
+    this.notasService.getGrupos().subscribe(grupos => {
       this.grupos = grupos;
     });
     

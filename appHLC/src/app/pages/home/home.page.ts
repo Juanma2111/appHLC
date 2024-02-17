@@ -19,6 +19,7 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.notasService.getNotas().subscribe(notas => {
       this.notas = notas;
+      console.log(notas)
     });
 
     this.route.params.subscribe(params => {
