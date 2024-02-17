@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NotasService } from 'src/app/services/notas.service';
 import { Nota } from 'src/app/models/nota.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Grupo } from 'src/app/models/grupo.model';
 
 @Component({
   selector: 'app-home',
@@ -10,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class HomePage implements OnInit {
   notas: Nota[] = [];
+  grupo: Grupo = {id: '', nombre: '', color: '#'};
   grupoSeleccionado: string  = ''
 
   constructor(private notasService: NotasService, private router: Router, private route: ActivatedRoute) {}
@@ -20,11 +22,8 @@ export class HomePage implements OnInit {
     });
 
     this.route.params.subscribe(params => {
-      this.grupoSeleccionado = params['grupoSeleccionado']
+      this.grupoSeleccionado = params['grupoSeleccionado'] || ''
     })
-    if (this.grupoSeleccionado == undefined) {
-      this.grupoSeleccionado = ''
-    }
   }
 
   agregarNota() {
@@ -37,13 +36,21 @@ export class HomePage implements OnInit {
   }
 
   getGrupoNombre(grupoId: string){
-    const grupo = this.notasService.getGrupos().find(g => g.id === grupoId)
-    return grupo?.nombre;
+    this.notasService.getGrupos().subscribe(grupos => {
+      const grupo = grupos.find(g => g.id === grupoId)
+      return grupo?.nombre;
+
+    })
   }
 
   getGrupoColor(grupoId: string): string {
-    const grupo = this.notasService.getGrupos().find(g => g.id === grupoId)
-    return grupo?.color || "#B8B8B8";
+    this.notasService.getGrupos().subscribe(grupos => {
+      const gr = grupos.find(g => g.id === grupoId)
+      if (gr != undefined) {
+        this.grupo = gr
+      }
+    })
+    return this.grupo?.color || "#B8B8B8";
   }
 
 }

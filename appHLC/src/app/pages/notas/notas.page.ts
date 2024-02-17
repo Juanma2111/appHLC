@@ -23,7 +23,9 @@ export class NotasPage implements OnInit{
   ) {}
 
   async ngOnInit() {
-    this.grupos = this.notasService.getGrupos();
+    this.notasService.getGrupos().subscribe(grupos => {
+      this.grupos = grupos
+    })
 
     this.route.paramMap.subscribe(async params => {
       this.notaId = params.get('id');

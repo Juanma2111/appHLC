@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Grupo } from 'src/app/models/grupo.model';
 import { Nota } from 'src/app/models/nota.model';
 import { FiltroNotasPipe } from 'src/app/pipes/filtro-notas.pipe';
 import { NotasService } from 'src/app/services/notas.service';
@@ -15,6 +16,7 @@ export class ListComponent  implements OnInit {
   constructor(private notasService: NotasService, private router: Router) { }
 
   notas: Nota[] = []
+  grupo: Grupo = {id: '', nombre: '', color: '#'};
   @Input() grupoSeleccionado: string  = '';
 
   ngOnInit() {
@@ -29,7 +31,12 @@ export class ListComponent  implements OnInit {
   }
 
   getGrupoColor(grupoId: string): string {
-    const grupo = this.notasService.getGrupos().find(g => g.id === grupoId)
-    return grupo?.color || "#B8B8B8";
+    this.notasService.getGrupos().subscribe(grupos => {
+      const gr = grupos.find(g => g.id === grupoId)
+      if (gr != undefined) {
+        this.grupo = gr
+      }
+    })
+    return this.grupo?.color || "#B8B8B8";
   }
 }

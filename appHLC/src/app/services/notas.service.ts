@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Nota } from '../models/nota.model';
 import { Grupo } from '../models/grupo.model';
 import { Firestore, addDoc, collection, collectionData, doc, deleteDoc, getDoc, updateDoc } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +11,12 @@ export class NotasService {
 
   constructor(private firestore: Firestore) { }
 
+  private gruposSubject = new BehaviorSubject<Grupo[]>([]);
+  grupos$ = this.gruposSubject.asObservable();
+
   private notas: Nota[] = [];
   private grupos: Grupo[] = [
-    {id: '1', nombre: 'Trabajo', color: '#0077c8'},
-    {id: '2', nombre: 'Compra', color: '#da1884'}
+    {id: '1', nombre: 'Compra', color: '#da1884'}
   ]
 
   //NOTAS
@@ -23,19 +25,19 @@ export class NotasService {
     return collectionData(notasRef, { idField: 'id'}) as Observable<Nota[]>
   }
   
-  agregarNota(nota: Nota) {
-    const notasRef = collection(this.firestore, "notas");
-    return addDoc(notasRef, nota);
-  }
-
   async getNotaPorId(id: string) {
     const notaDocRef = doc(this.firestore, ('notas/' + id));
 
     const notaSnap = await getDoc(notaDocRef)
     return (notaSnap.data() as Nota);
   }
+  
+  async agregarNota(nota: Nota) {
+    const notasRef = collection(this.firestore, "notas");
+    return await addDoc(notasRef, nota);
+  }
 
-  actualizarNota(nuevaNota: Nota) { //---------------------------------------------------------------------
+  async actualizarNota(nuevaNota: Nota): Promise<void> { //---------------------------------------------------------------------
     const notaDocRef = doc(this.firestore, ('notas/' + nuevaNota.id));
     const cambios = {
       id: nuevaNota.id,
@@ -44,7 +46,7 @@ export class NotasService {
       grupoId: nuevaNota.grupoId
     }
 
-    updateDoc(notaDocRef, cambios)
+    await updateDoc(notaDocRef, cambios)
   }
 
   async borrarNota(id: string){
@@ -53,11 +55,37 @@ export class NotasService {
   }
 
   //GRUPOS
-  getGrupos(): Grupo[] {
-    return this.grupos;
+  getGrupos(): Observable<Grupo[]> {
+    const gruposRef = collection(this.firestore, 'grupos');
+    const grupos$ = collectionData(gruposRef, { idField: 'id' }) as Observable<Grupo[]>;
+    grupos$.subscribe(grupos => {
+      this.gruposSubject.next(grupos);
+    });
+
+    return grupos$;
   }
 
-  agregarGrupo(grupo: Grupo) {
-    this.grupos.push(grupo);
+  async agregarGrupo(grupo: Grupo): Promise<void> {
+    const gruposRef = collection(this.firestore, 'grupos');
+    await addDoc(gruposRef, grupo);
+
+    const nuevaLista = this.gruposSubject.value.concat(grupo);
+    this.gruposSubject.next(nuevaLista);
+  }
+
+  async actualizarGrupo(grupo: Grupo): Promise<void> {
+    const grupoDocRef = doc(this.firestore, 'grupos', grupo.id);
+    const cambios = {
+      id: grupo.id,
+      nombre: grupo.nombre,
+      color: grupo.color
+    };
+
+    await updateDoc(grupoDocRef, cambios);
+  }
+
+  async borrarGrupo(id: string): Promise<void> {
+    const grupoDocRef = doc(this.firestore, 'grupos', id);
+    await deleteDoc(grupoDocRef);
   }
 }

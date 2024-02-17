@@ -21,7 +21,10 @@ export class MenuComponent  implements OnInit {
   nombreSeleccionado: string = ''
 
   ngOnInit() {
-    this.grupos = this.notasService.getGrupos()
+    this.notasService.grupos$.subscribe(grupos => {
+      this.grupos = grupos;
+    });
+    
   }
 
   async crearGrupo() {
@@ -58,8 +61,9 @@ export class MenuComponent  implements OnInit {
   }
 
   getGrupoColor(grupoId: string): string {
-    const grupo = this.notasService.getGrupos().find(g => g.id === grupoId)
-    return grupo?.color || "#B8B8B8";
+    const grupoActual = this.grupos.find(grupo => grupo.id === grupoId);
+    return grupoActual?.color || "#B8B8B8";
+
   }
 
   seleccionarGrupo(grupoId: string): void {
