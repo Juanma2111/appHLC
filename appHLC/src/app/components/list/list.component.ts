@@ -16,6 +16,7 @@ export class ListComponent  implements OnInit {
   constructor(private notasService: NotasService, private router: Router) { }
 
   notas: Nota[] = []
+  grupos: Grupo[] = []
   grupo: Grupo = {id: '', nombre: '', color: '#'};
   @Input() grupoSeleccionado: string  = '';
 
@@ -23,6 +24,10 @@ export class ListComponent  implements OnInit {
     this.notasService.getNotas().subscribe(notas => {
       this.notas = notas;
     });
+
+    this.notasService.getGrupos().subscribe(grupos => {
+      this.grupos = grupos
+    })
   }
 
   verNota(nota: Nota) {
@@ -30,13 +35,9 @@ export class ListComponent  implements OnInit {
     this.router.navigate(['/notas', notaId]);
   }
 
-  getGrupoColor(grupoId: string): string {
-    this.notasService.getGrupos().subscribe(grupos => {
-      const gr = grupos.find(g => g.id === grupoId)
-      if (gr != undefined) {
-        this.grupo = gr
-      }
-    })
-    return this.grupo?.color || "#B8B8B8";
+  getGrupoColor(grupoId: string) {
+      const grupo = this.grupos.find(g => g.id === grupoId)
+      console.log(grupo?.color)
+      return grupo?.color
   }
 }
