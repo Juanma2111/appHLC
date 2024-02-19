@@ -3,6 +3,7 @@ import { NotasService } from 'src/app/services/notas.service';
 import { Nota } from 'src/app/models/nota.model';
 import { Grupo } from 'src/app/models/grupo.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CameraService } from 'src/app/services/camera.service';
 
 @Component({
   selector: 'app-notas',
@@ -19,7 +20,8 @@ export class NotasPage implements OnInit{
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private notasService: NotasService
+    private notasService: NotasService,
+    private cameraService: CameraService
   ) {}
 
   async ngOnInit() {
@@ -98,4 +100,10 @@ export class NotasPage implements OnInit{
   }
 
 
+  //HACER FOTO
+  async hacerFoto() {
+    const imagePath = await this.cameraService.foto();
+
+    this.nota.imagenPath = imagePath
+  }
 }

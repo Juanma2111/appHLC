@@ -28,9 +28,11 @@
     <ion-textarea placeholder="Contenido" [(ngModel)]="nota.contenido"></ion-textarea>
   </ion-item>
 
-  
+  <ion-img *ngIf="nota.imagenPath" [src]="nota.imagenPath" alt="Imagen de la nota"></ion-img>
+
 
   <ion-button expand="full" (click)="guardarNota()">Guardar Cambios</ion-button>
   <ion-button expand="full" (click)="borrarNota()">Borrar nota</ion-button>
   <ion-button expand="full" (click)="volverAlInicio()">Volver al inicio</ion-button>
+  <ion-button (click)="hacerFoto()">Hacer foto</ion-button>
 </ion-content>
