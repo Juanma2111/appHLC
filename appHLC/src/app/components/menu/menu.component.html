@@ -7,7 +7,8 @@
         Todo
       </ion-item>
       <ion-item *ngFor="let grupo of grupos"
-      [style.border-left]="'5px solid ' + grupo.color" [style.border-bottom]="'3px solid ' + grupo.color" [style.color]="grupo.color" (click)="seleccionarGrupo(grupo.id)">
+      [style.border-left]="'5px solid ' + grupo.color" [style.border-bottom]="'3px solid ' + grupo.color" [style.color]="grupo.color" 
+      (click)="seleccionarGrupo(grupo.id)" (press)="mostrarOpcionesGrupo(grupo)">
         {{ grupo.nombre }}
       </ion-item>
       <ion-item (click)="crearGrupo()">

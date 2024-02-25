@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Grupo } from 'src/app/models/grupo.model';
 import { NotasService } from 'src/app/services/notas.service';
-import { AlertController, PopoverController } from '@ionic/angular';
+import { AlertController, IonItemSliding, PopoverController } from '@ionic/angular';
 import { SelectorColorComponent } from '../selector-color/selector-color.component';
 
 @Component({
@@ -94,5 +94,81 @@ export class MenuComponent  implements OnInit {
       this.notasService.agregarGrupo(nuevoGrupo)
     }
 
+  }
+
+
+  mostrarOpcionesGrupo(grupo: Grupo) {
+
+    this.alertController.create({
+      header: 'Opciones de Grupo',
+      buttons: [
+        {
+          text: 'Editar',
+          handler: () => {
+            this.editarGrupo(grupo);
+          }
+        },
+        {
+          text: 'Borrar',
+          handler: () => {
+            this.borrarGrupo(grupo);
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        }
+      ]
+    }).then(alert => alert.present());
+  }
+
+  async editarGrupo(grupo: Grupo) {
+    const alert = await this.alertController.create({
+      header: 'Editar Grupo',
+      inputs: [
+        {
+          name: 'nombre',
+          type: 'text',
+          value: grupo.nombre,
+          placeholder: 'Nombre del Grupo',
+        }
+      ],
+      buttons: [
+        {
+          text: 'Guardar',
+          handler: async data => {
+            grupo.nombre = data.nombre;
+            await this.notasService.actualizarGrupo(grupo);
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async borrarGrupo(grupo: Grupo) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar Borrar',
+      message: `¿Estás seguro de borrar el grupo "${grupo.nombre}"?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Borrar',
+          handler: async () => {
+            await this.notasService.borrarGrupo(grupo.id);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 }
