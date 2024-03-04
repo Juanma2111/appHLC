@@ -1,0 +1,20 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Grupos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let grupo of grupos" [style.border-right]="'8px solid' + grupo.color">
+      <ion-label>{{ grupo.nombre }}</ion-label>
+      <ion-buttons slot="end">
+        <ion-button (click)="editarGrupo(grupo)">Editar</ion-button>
+        <ion-button (click)="borrarGrupo(grupo)">Borrar</ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+</ion-content>

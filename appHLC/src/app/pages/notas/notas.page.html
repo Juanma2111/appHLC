@@ -3,24 +3,18 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ nota.titulo || 'Nueva Nota'}}</ion-title>
   <ion-item slot="end" id="itemGrupo">
-    <ion-select [(ngModel)]="nota.grupoId" placeholder="grupo" [style.background-color]="getGrupoColor()" (ionChange)="actualizarGrupo($event)" id="grupoButton">
+    <ion-select [(ngModel)]="nota.grupoId" placeholder="Grupo" [style.background-color]="getGrupoColor()" (ionChange)="actualizarGrupo($event)" id="grupoButton">
       <ion-select-option *ngFor="let grupo of grupos" [value]="grupo.id">
         {{ grupo.nombre }}
       </ion-select-option>
     </ion-select>
   </ion-item>
-
-    <!-- <ion-buttons slot="end">
-      <ion-button id="grupoButton" (click)="seleccionarGrupo()" [style.background]="getGrupoColor()"></ion-button>
-    </ion-buttons> -->
-
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-item>
+  <ion-item [style.font-size]="'30px'">
     <ion-input placeholder="Titulo" [(ngModel)]="nota.titulo"></ion-input>
   </ion-item>
 
@@ -31,8 +25,30 @@
   <ion-img *ngIf="nota.imagenPath" [src]="nota.imagenPath" alt="Imagen de la nota"></ion-img>
 
 
-  <ion-button expand="full" (click)="guardarNota()">Guardar Cambios</ion-button>
-  <ion-button expand="full" (click)="borrarNota()">Borrar nota</ion-button>
-  <ion-button expand="full" (click)="volverAlInicio()">Volver al inicio</ion-button>
-  <ion-button (click)="hacerFoto()">Hacer foto</ion-button>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="guardarNota()" color="dark">
+      <ion-icon name="save"></ion-icon>
+    </ion-fab-button>  
+  </ion-fab>
+
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    
+    <ion-fab-button color="dark">
+      <ion-icon name="play"></ion-icon>
+    </ion-fab-button>
+
+    <ion-fab-list side="end">
+
+      <ion-fab-button (click)="hacerFoto()">
+        <ion-icon name="camera"></ion-icon>
+      </ion-fab-button>
+
+      <ion-fab-button (click)="borrarNota()">
+        <ion-icon name="trash"></ion-icon>
+      </ion-fab-button>
+
+    </ion-fab-list>
+  </ion-fab>
+
+  
 </ion-content>

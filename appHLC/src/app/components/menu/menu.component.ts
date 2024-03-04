@@ -1,8 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Grupo } from 'src/app/models/grupo.model';
 import { NotasService } from 'src/app/services/notas.service';
-import { AlertController, IonItemSliding, PopoverController } from '@ionic/angular';
+import { AlertController, IonItemSliding, MenuController, PopoverController } from '@ionic/angular';
 import { SelectorColorComponent } from '../selector-color/selector-color.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -12,7 +13,12 @@ import { SelectorColorComponent } from '../selector-color/selector-color.compone
 export class MenuComponent  implements OnInit {
 
 
-  constructor(private notasService: NotasService, private alertController: AlertController, private popoverController: PopoverController) { }
+  constructor(
+    private notasService: NotasService, 
+    private alertController: AlertController, 
+    private popoverController: PopoverController,
+    private router: Router,
+    private menuController: MenuController) { }
 
   @Output() grupoSeleccionado = new EventEmitter<string>();
 
@@ -67,6 +73,7 @@ export class MenuComponent  implements OnInit {
   }
 
   seleccionarGrupo(grupoId: string): void {
+    this.menuController.close()
     this.grupoSeleccionado.emit(grupoId)
   }
 
@@ -96,79 +103,39 @@ export class MenuComponent  implements OnInit {
 
   }
 
-
-  mostrarOpcionesGrupo(grupo: Grupo) {
-
-    this.alertController.create({
-      header: 'Opciones de Grupo',
-      buttons: [
-        {
-          text: 'Editar',
-          handler: () => {
-            this.editarGrupo(grupo);
-          }
-        },
-        {
-          text: 'Borrar',
-          handler: () => {
-            this.borrarGrupo(grupo);
-          }
-        },
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        }
-      ]
-    }).then(alert => alert.present());
+  editarGrupos() {
+    this.menuController.close()
+    this.router.navigate(['/grupos'])
   }
 
-  async editarGrupo(grupo: Grupo) {
-    const alert = await this.alertController.create({
-      header: 'Editar Grupo',
-      inputs: [
-        {
-          name: 'nombre',
-          type: 'text',
-          value: grupo.nombre,
-          placeholder: 'Nombre del Grupo',
-        }
-      ],
-      buttons: [
-        {
-          text: 'Guardar',
-          handler: async data => {
-            grupo.nombre = data.nombre;
-            await this.notasService.actualizarGrupo(grupo);
-          }
-        },
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        }
-      ]
-    });
+//   async editarGrupo(grupo: Grupo) {
+//     const alert = await this.alertController.create({
+//       header: 'Editar Grupo',
+//       inputs: [
+//         {
+//           name: 'nombre',
+//           type: 'text',
+//           value: grupo.nombre,
+//           placeholder: 'Nombre del Grupo',
+//         }
+//       ],
+//       buttons: [
+//         {
+//           text: 'Guardar',
+//           handler: async data => {
+//             grupo.nombre = data.nombre;
+//             await this.notasService.actualizarGrupo(grupo);
+//           }
+//         },
+//         {
+//           text: 'Cancelar',
+//           role: 'cancel'
+//         }
+//       ]
+//     });
 
-    await alert.present();
-  }
+//     await alert.present();
+//   }
 
-  async borrarGrupo(grupo: Grupo) {
-    const alert = await this.alertController.create({
-      header: 'Confirmar Borrar',
-      message: `¿Estás seguro de borrar el grupo "${grupo.nombre}"?`,
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        },
-        {
-          text: 'Borrar',
-          handler: async () => {
-            await this.notasService.borrarGrupo(grupo.id);
-          }
-        }
-      ]
-    });
 
-    await alert.present();
-  }
-}
+ }

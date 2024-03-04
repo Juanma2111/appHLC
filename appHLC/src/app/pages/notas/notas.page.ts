@@ -103,7 +103,9 @@ export class NotasPage implements OnInit{
   //HACER FOTO
   async hacerFoto() {
     const imagePath = await this.cameraService.foto();
-
-    this.nota.imagenPath = imagePath
+    if (imagePath != undefined) {
+      this.nota.imagenPath = imagePath
+      this.notasService.addImagen(this.nota, imagePath)
+    }
   }
 }

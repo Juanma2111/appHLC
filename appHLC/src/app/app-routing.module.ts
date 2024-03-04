@@ -25,7 +25,11 @@ const routes: Routes = [
   {
     path: 'home/:grupoSeleccionado',
     component: HomePage
+  },  {
+    path: 'grupos',
+    loadChildren: () => import('./pages/grupos/grupos.module').then( m => m.GruposPageModule)
   }
+
 ];
 
 @NgModule({
