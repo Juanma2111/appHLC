@@ -49,10 +49,10 @@ export class NotasService {
     await updateDoc(notaDocRef, cambios)
   }
 
-  async addImagen(nota: Nota, imagen: string){
+  async addImagen(nota: Nota, imagenUrl: string){
     const notaDocRef = doc(this.firestore, ('notas/' + nota.id));
     const cambios = {
-      imagenPath: imagen
+      imagenPath: imagenUrl
     }
 
     await updateDoc(notaDocRef, cambios)
